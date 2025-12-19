@@ -1,0 +1,1 @@
+// Aquí anirà la gestió de dades locals amb IndexedDB

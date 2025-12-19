@@ -1,0 +1,876 @@
+/* ===========================
+   VARIABLES I TEMA
+   =========================== */
+
+:root {
+  --bg: #050509;
+  --bg-elevated: #11111a;
+  --bg-soft: #191922;
+  --fg: #f5f5f7;
+  --fg-muted: #9c9cb0;
+  --accent: #ffffff;
+  --accent-soft: rgba(255, 255, 255, 0.08);
+  --border-subtle: #262637;
+  --danger: #ff4b5c;
+  --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.75);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+
+  --bg-gradient: radial-gradient(circle at top, #181828 0, #05050b 40%, #000 100%);
+
+  --transition-fast: 0.18s ease-out;
+  --transition-med: 0.28s ease-out;
+}
+
+/* Tema clar automàtic; si després hi afegeixes un toggle, només canviarem classes al :root des del JS */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f5f5f9;
+    --bg-elevated: #ffffff;
+    --bg-soft: #e6e6f1;
+    --fg: #171721;
+    --fg-muted: #70708a;
+    --accent: #111111;
+    --accent-soft: rgba(0, 0, 0, 0.06);
+    --border-subtle: #cfd0de;
+    --shadow-soft: 0 16px 40px rgba(15, 15, 30, 0.18);
+    --bg-gradient: radial-gradient(circle at top, #ffffff 0, #e9e9f4 40%, #dcdcef 100%);
+  }
+}
+
+/* Transició suau de tema quan canviïs classes des del JS (tema clar/fosc manual) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  transition: background-color var(--transition-med), color var(--transition-med), border-color var(--transition-med);
+}
+
+/* ===========================
+   RESET BÀSIC
+   =========================== */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg-gradient);
+  color: var(--fg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+/* Classes d’utilitat */
+
+.hidden {
+  display: none !important;
+}
+
+.text-muted {
+  color: var(--fg-muted);
+}
+
+/* ===========================
+   SPLASH SCREEN
+   =========================== */
+
+.splash {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #11111a 0, #04040a 50%, #000 100%);
+  z-index: 1000;
+  animation: splashFadeOut 0.7s ease-out forwards;
+  animation-delay: 1.6s; /* El JS controla quan amagar-ho, però això dona sensació de lentitud i elegància */
+}
+
+@keyframes splashFadeOut {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+.splash-content {
+  text-align: center;
+  animation: splashPopIn 0.7s ease-out forwards;
+}
+
+@keyframes splashPopIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.logo-circle {
+  width: 82px;
+  height: 82px;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.45rem;
+  margin: 0 auto 18px auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+}
+
+.splash h1 {
+  font-size: 1.35rem;
+  margin-bottom: 6px;
+}
+
+.credit {
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+}
+
+/* ===========================
+   CONTAINER PRINCIPAL
+   =========================== */
+
+.app {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 16px 12px 24px 12px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ===========================
+   TOPBAR + BOTÓ AJUDA
+   =========================== */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(8, 8, 16, 0.9);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.8);
+}
+
+.topbar-left {
+  display: flex;
+  flex-direction: column;
+}
+
+#monthName {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.year-label {
+  font-size: 0.76rem;
+  color: var(--fg-muted);
+}
+
+.topbar-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-btn,
+.icon-btn,
+.ghost-btn,
+.primary-btn {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--fg);
+}
+
+.nav-btn {
+  background: var(--accent-soft);
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.ghost-btn {
+  border-color: var(--border-subtle);
+}
+
+.ghost-btn:hover {
+  background: var(--accent-soft);
+}
+
+.primary-btn {
+  background: #fff;
+  color: #000;
+  font-weight: 600;
+}
+
+/* Botó d’ajuda flotant (p.ex. cantonada inferior esquerra) */
+
+.help-button {
+  position: fixed;
+  left: 16px;
+  bottom: 26px;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: rgba(15, 15, 25, 0.9);
+  color: var(--fg);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ===========================
+   DIES DE LA SETMANA
+   =========================== */
+
+.weekdays-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+  padding-inline: 8px;
+}
+
+.weekdays-row span {
+  text-align: center;
+}
+
+/* ===========================
+   LAYOUT PRINCIPAL
+   =========================== */
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 2.1fr 1.1fr;
+  gap: 14px;
+}
+
+@media (max-width: 820px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===========================
+   CALENDARI (VISTA MENSUAL)
+   =========================== */
+
+.calendar {
+  background: linear-gradient(135deg, rgba(18, 18, 30, 0.96), rgba(10, 10, 20, 0.98));
+  border-radius: var(--radius-lg);
+  padding: 10px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  animation: monthFadeIn 0.35s ease;
+}
+
+@keyframes monthFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.day-cell {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  padding: 6px;
+  font-size: 0.82rem;
+  color: var(--fg-muted);
+  cursor: pointer;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.day-cell:hover {
+  transform: translateY(-1px) scale(1.03);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+}
+
+.day-number {
+  font-weight: 500;
+}
+
+.day-outside {
+  opacity: 0.35;
+}
+
+.today {
+  border-color: #fff;
+}
+
+.selected-day {
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 0 0 2px #ffffff inset,
+    0 0 14px rgba(255, 255, 255, 0.5);
+}
+
+/* Punts d’esdeveniments */
+
+.event-dot-row {
+  position: absolute;
+  left: 6px;
+  bottom: 4px;
+  display: flex;
+  gap: 3px;
+}
+
+.event-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color), #ffffff33);
+  box-shadow: 0 0 6px var(--color);
+}
+
+/* Punts per esdeveniments intel·ligents (generats automàticament) */
+
+.event-dot.auto {
+  opacity: 0.8;
+  box-shadow: 0 0 8px rgba(131, 201, 255, 0.7);
+}
+
+/* ===========================
+   VISTA SETMANAL
+   =========================== */
+
+.week-view {
+  margin-top: 8px;
+  background: rgba(8, 8, 16, 0.98);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: var(--shadow-soft);
+  padding: 8px 10px 10px 10px;
+}
+
+.week-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+}
+
+.week-days-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.week-day {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-md);
+  padding: 4px 5px;
+  font-size: 0.76rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.week-day-label {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+}
+
+.week-day-events {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* ===========================
+   PANEL D’ESDEVENIMENTS (LATERAL / INFERIOR)
+   =========================== */
+
+.event-panel {
+  background: rgba(14, 14, 24, 0.96);
+  border-radius: var(--radius-lg);
+  padding: 12px 12px 16px 12px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  animation: panelSlideIn 0.35s ease;
+}
+
+@keyframes panelSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.event-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+#selectedDate {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.event-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.event-item {
+  display: flex;
+  gap: 6px;
+  padding: 7px 9px;
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+}
+
+.event-color {
+  width: 6px;
+  border-radius: 999px;
+}
+
+/* Esdeveniment intel·ligent (generat) */
+
+.event-item.auto {
+  border: 1px dashed rgba(131, 201, 255, 0.6);
+}
+
+.event-main {
+  flex: 1;
+}
+
+.event-title-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.event-icon {
+  font-size: 0.85rem;
+  opacity: 0.95;
+}
+
+.event-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.event-meta {
+  font-size: 0.7rem;
+  color: var(--fg-muted);
+}
+
+.event-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.event-actions button {
+  font-size: 0.7rem;
+}
+
+.empty-msg {
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+  margin-top: 6px;
+}
+
+/* ===========================
+   BOTÓ AFEGIR ESDEVENIMENT
+   =========================== */
+
+.add-btn-rect {
+  position: fixed;
+  right: 20px;
+  bottom: 26px;
+  padding: 14px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #4a4a4a;
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.add-btn-rect:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+
+.footer {
+  margin-top: auto;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+}
+
+/* ===========================
+   MODAL ESDEVENIMENT
+   =========================== */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  position: relative;
+  max-width: 430px;
+  margin: 80px auto;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  padding: 18px 16px 16px 16px;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(16px);
+  animation: fadeUp 0.4s ease-out;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-content h3 {
+  margin-bottom: 10px;
+  font-size: 1.12rem;
+  font-weight: 600;
+}
+
+#eventForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+input[type="text"],
+input[type="time"],
+textarea,
+select {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  padding: 8px 10px;
+  background: var(--bg-soft);
+  color: var(--fg);
+  font-size: 0.86rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row > * {
+  flex: 1;
+}
+
+.checkbox-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.modal-actions button {
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.86rem;
+  font-weight: 500;
+}
+
+/* ===========================
+   CONFIGURACIÓ + PERSONALITZACIÓ COLORS
+   =========================== */
+
+.settings {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+}
+
+.settings-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.settings-panel {
+  position: relative;
+  max-width: 430px;
+  margin: 60px auto;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px 16px 16px;
+  box-shadow: var(--shadow-soft);
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.settings-section {
+  margin-top: 10px;
+  font-size: 0.86rem;
+}
+
+.category-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+}
+
+.category-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.category-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.category-name {
+  font-size: 0.8rem;
+}
+
+/* Input de color per personalitzar categories */
+
+.category-color-input {
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  width: 30px;
+  height: 18px;
+  border-radius: 999px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.category-color-input::-webkit-color-swatch {
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.category-color-input::-moz-color-swatch {
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.about {
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 12px;
+  padding-top: 8px;
+}
+
+/* ===========================
+   AJUDA INTEGRADA
+   =========================== */
+
+.help-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 80px;
+  max-width: 260px;
+  background: rgba(8, 8, 16, 0.98);
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  animation: fadeUp 0.25s ease-out;
+}
+
+.help-panel h4 {
+  margin-bottom: 4px;
+  font-size: 0.86rem;
+  color: var(--fg);
+}
+
+/* ===========================
+   RESPONSIVE MOBILE
+   =========================== */
+
+@media (max-width: 700px) {
+  .app {
+    padding-inline: 8px;
+  }
+
+  .topbar {
+    padding-inline: 12px;
+  }
+
+  #monthName {
+    font-size: 1rem;
+  }
+
+  .calendar {
+    padding: 8px;
+    gap: 3px;
+  }
+
+  .day-cell {
+    padding: 4px;
+    font-size: 0.78rem;
+  }
+
+  .event-panel {
+    margin-top: 4px;
+  }
+
+  .add-btn-rect {
+    right: 14px;
+    bottom: 22px;
+  }
+
+  .help-button {
+    left: 14px;
+    bottom: 22px;
+  }
+
+  .modal-content,
+  .settings-panel {
+    margin: 50px 10px;
+  }
+}
+
+#installAppBtn {
+  background: var(--accent-soft);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--fg);
+  transition: 0.2s ease;
+}
+
+#installAppBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}

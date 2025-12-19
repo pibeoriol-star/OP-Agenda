@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OP Agenda</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- SPLASH SCREEN -->
+  <div id="splash" class="splash">
+    <div class="splash-content">
+      <div class="logo-circle">OP</div>
+      <h1>OP Agenda</h1>
+      <p class="credit">Fet per Oriol Pibernat</p>
+    </div>
+  </div>
+
+  <!-- APP PRINCIPAL -->
+  <div id="app" class="app hidden">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h2 id="monthName"></h2>
+        <span id="yearLabel" class="year-label"></span>
+      </div>
+      <div class="topbar-buttons">
+        <button id="todayBtn" class="ghost-btn">Avui</button>
+        <button id="prevMonth" class="nav-btn" aria-label="Mes anterior">◀</button>
+        <button id="nextMonth" class="nav-btn" aria-label="Mes següent">▶</button>
+        <button id="openSettings" class="icon-btn" aria-label="Configuració">⚙️</button>
+      </div>
+    </header>
+
+    <!-- DIES SETMANA -->
+    <div class="weekdays-row">
+      <span>Dl</span><span>Dt</span><span>Dc</span><span>Dj</span><span>Dv</span><span>Ds</span><span>Dg</span>
+    </div>
+
+    <!-- LAYOUT PRINCIPAL -->
+    <main class="main-layout">
+      <!-- CALENDARI -->
+      <section id="calendar" class="calendar" aria-label="Calendari mensual"></section>
+
+      <!-- PANEL ESDEVENIMENTS -->
+      <aside id="eventPanel" class="event-panel">
+        <div class="event-panel-header">
+          <h3 id="selectedDate"></h3>
+          <button id="closePanel" class="icon-btn" aria-label="Tancar panell">✕</button>
+        </div>
+        <ul id="eventList" class="event-list"></ul>
+        <p id="noEventsMsg" class="empty-msg">Cap esdeveniment per aquest dia.</p>
+      </aside>
+    </main>
+
+    <!-- BOTÓ AFEGIR ESDEVENIMENT -->
+    <button id="addEvent" class="add-btn-rect" aria-label="Afegir esdeveniment">
+      Afegir esdeveniment
+    </button>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p class="credit">Fet per Oriol Pibernat</p>
+    </footer>
+  </div>
+
+  <!-- MODAL ESDEVENIMENT -->
+  <div id="eventModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Nou esdeveniment</h3>
+
+      <form id="eventForm">
+        <label>
+          Títol
+          <input type="text" id="eventTitle" required maxlength="100" placeholder="Ex: Estudi, reunió...">
+        </label>
+
+        <label>
+          Descripció
+          <textarea id="eventDescription" rows="3" maxlength="300" placeholder="Detalls opcionals"></textarea>
+        </label>
+
+        <div class="form-row">
+          <label>
+            Hora
+            <input type="time" id="eventTime">
+          </label>
+
+          <label>
+            Categoria
+            <select id="eventCategory"></select>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label class="checkbox-row">
+            <input type="checkbox" id="eventAllDay" checked>
+            <span>Tot el dia</span>
+          </label>
+
+          <label>
+            Repetició
+            <select id="eventRepeat">
+              <option value="none">Cap</option>
+              <option value="daily">Diari</option>
+              <option value="weekly">Setmanal</option>
+              <option value="monthly">Mensual</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelEvent" class="ghost-btn">Cancel·lar</button>
+          <button type="submit" class="primary-btn">Desar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CONFIGURACIÓ -->
+  <section id="settings" class="settings hidden" aria-hidden="true">
+    <div class="settings-backdrop"></div>
+    <div class="settings-panel" role="dialog" aria-modal="true">
+      <header class="settings-header">
+        <h3>Configuració</h3>
+        <button id="closeSettings" class="icon-btn" aria-label="Tancar configuració">✕</button>
+      </header>
+
+      <div class="settings-section">
+        <h4>Aspecte</h4>
+        <p>El tema s'adapta automàticament al mode clar/fosc del sistema.</p>
+      </div>
+
+      <div class="settings-section">
+        <h4>Categories</h4>
+        <ul id="categoryList" class="category-list"></ul>
+        <button id="addCategory" class="ghost-btn">Afegir categoria</button>
+      </div>
+
+      <div class="settings-section about">
+        <h4>Sobre OP Agenda</h4>
+        <p>OP Agenda és una agenda minimalista i elegant pensada per a organitzar el teu dia a dia.</p>
+        <p class="credit">Fet per Oriol Pibernat</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="calendar.js"></script>
+  <script src="app.js"></script>
+  <button id="installAppBtn" class="ghost-btn hidden">Descarregar l’app</button>
+
+</body>
+</html>
