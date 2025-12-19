@@ -425,22 +425,5 @@ function attachEventListeners() {
   });
 }
 
-window.addEventListener("DOMContentLoaded", init);
+init();
 
-// Instal·lació PWA
-let deferredPrompt;
-const installBtn = document.getElementById("installAppBtn");
-
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.classList.remove("hidden");
-});
-
-installBtn.addEventListener("click", async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const result = await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  installBtn.classList.add("hidden");
-});

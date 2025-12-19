@@ -152,7 +152,15 @@
 
   <script src="calendar.js"></script>
   <script src="app.js"></script>
-  <button id="installAppBtn" class="ghost-btn hidden">Descarregar l’app</button>
 
-</body>
-</html>
+<!-- BOTÓ UNIVERSAL D’INSTAL·LACIÓ -->
+<button id="installAppBtn" class="install-btn">Descarregar l’app</button>
+
+<!-- MODAL UNIVERSAL -->
+<div id="installInstructions" class="modal hidden">
+  <div class="modal-content">
+    <h2>Instal·lar l’app</h2>
+    <p id="instructionsText"></p>
+    <button id="closeModal">Tancar</button>
+  </div>
+</div>

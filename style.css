@@ -874,3 +874,40 @@ textarea {
   background: rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
 }
+
+.install-btn {
+  background: var(--accent-soft);
+  border: 1px solid var(--border-subtle);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  color: var(--fg);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.install-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: var(--bg);
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 300px;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
