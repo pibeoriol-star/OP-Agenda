@@ -911,3 +911,19 @@ textarea {
 .hidden {
   display: none;
 }
+
+.install-info {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.install-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
